@@ -1,0 +1,57 @@
+/*
+ * Rune Margin RuneLite plugin build.
+ *
+ * Mirrors the official RuneLite example-plugin template: the RuneLite client is a
+ * compileOnly dependency (it is provided by the host client at runtime / by the
+ * test bootstrap), and Lombok is used for the config-annotation boilerplate.
+ */
+plugins {
+    id 'java'
+}
+
+repositories {
+    mavenLocal()
+    // RuneLite's own Maven repo — the net.runelite:* artifacts are NOT on Maven Central.
+    maven {
+        url = 'https://repo.runelite.net'
+        content {
+            // net.runelite AND sub-groups (e.g. net.runelite.arn transitive deps).
+            includeGroupByRegex 'net\\.runelite.*'
+        }
+    }
+    mavenCentral()
+}
+
+// The Plugin Hub requires 'latest.release' so the plugin is always built against the
+// current client — do NOT pin this to a fixed version.
+def runeLiteVersion = 'latest.release'
+
+dependencies {
+    compileOnly group: 'net.runelite', name: 'client', version: runeLiteVersion
+
+    compileOnly 'org.projectlombok:lombok:1.18.48'
+    annotationProcessor 'org.projectlombok:lombok:1.18.48'
+
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation group: 'net.runelite', name: 'client', version: runeLiteVersion
+    testImplementation group: 'net.runelite', name: 'jshell', version: runeLiteVersion
+
+    // Lombok is also needed for annotation processing in tests.
+    testCompileOnly 'org.projectlombok:lombok:1.18.48'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.48'
+}
+
+group = 'com.runemargin'
+version = '1.0'
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+    // --release 11 pins BOTH the bytecode version and the visible API surface to
+    // Java 11, so building on a newer local JDK (e.g. 25) can't accidentally rely on
+    // an API the Plugin Hub's Java 11 build wouldn't have. RuneLite targets Java 11.
+    options.release = 11
+}
+
+test {
+    useJUnit()
+}

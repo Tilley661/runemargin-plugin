@@ -1,0 +1,14 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      // RuneLite's plugin loader requires JVM assertions (-ea) or it aborts.
+      "type": "java",
+      "name": "RuneMargin dev client",
+      "request": "launch",
+      "mainClass": "com.runemargin.RuneMarginPluginTest",
+      "projectName": "runemargin-runelite",
+      "vmArgs": "-ea"
+    }
+  ]
+}

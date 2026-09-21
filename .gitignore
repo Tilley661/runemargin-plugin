@@ -1,0 +1,25 @@
+# Gradle
+.gradle/
+build/
+
+# IntelliJ / Eclipse
+.idea/
+*.iml
+*.ipr
+*.iws
+.classpath
+.project
+.settings/
+bin/
+
+# VSCode — settings.json pins a machine-specific JDK path; keep launch.json shared.
+.vscode/settings.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Internal dev docs — kept locally, not published to the public repo.
+SNAGS.md
+ROADMAP.md
+SUBMISSION.md
